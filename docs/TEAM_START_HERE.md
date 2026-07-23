@@ -162,15 +162,15 @@ and quality, but is also responsible for developing a complete module.
 | Member | Primary development ownership | First branch |
 | --- | --- | --- |
 | **Ravishka** | Student Registration and Student Management: forms, list, search/filter, profiles, editing, status handling, validation, integration, and tests | `feature/student-management` |
-| **Loshan** | Shared UI component library, dashboard shell, header, sidebar, forms, tables, cards, modals, and responsive consistency | `feature/ui-component-library` |
-| **Anuhas** | Authentication flow, Supabase sessions, routes, protected pages, role-based navigation, and frontend service foundation | `feature/frontend-auth-routing` |
+| **Anuhas** | Shared UI component library, dashboard shell, header, sidebar, forms, tables, cards, modals, and responsive consistency | `feature/ui-component-library` |
+| **Loshan** | Authentication flow, Supabase sessions, routes, protected pages, role-based navigation, and frontend service foundation | `feature/frontend-auth-routing` |
 | **Dilshan** | Supabase database schema, relationships, migrations, RLS policies, FastAPI data access, backend services, and database documentation | `feature/database-schema` |
 
 ### File ownership boundaries
 
 - Ravishka owns student-feature files.
-- Loshan owns shared UI and layout files.
-- Anuhas owns authentication, session, and routing files.
+- Anuhas owns shared UI and layout files.
+- Loshan owns authentication, session, and routing files.
 - Dilshan owns migrations, database policies, and backend data-access files.
 - A developer must request a review from the owner before changing another
   member's core area.
@@ -198,8 +198,7 @@ Start with:
 Do not invent database fields. Agree on the student data contract with Dilshan
 in the GitHub issue before implementing database integration.
 
-#### Loshan — Shared UI Foundation
-
+#### Anuhas — Shared UI Foundation
 Start with:
 
 - Application shell
@@ -211,8 +210,7 @@ Start with:
 Publish component names, props, and usage examples in the issue or pull request
 so feature developers can reuse them.
 
-#### Anuhas — Authentication and Routing
-
+#### Loshan — Authentication and Routing
 Start with:
 
 - Login flow
@@ -537,7 +535,7 @@ Describe the single outcome this issue must deliver.
 ## 16. Pull-Request Review Ownership
 
 - Loshan and Anuhas review each other's frontend work.
-- Anuhas reviews frontend-to-backend contracts.
+- Loshan reviews frontend-to-backend contracts.
 - Dilshan reviews database, RLS, and backend data changes.
 - Ravishka performs functional and requirement testing.
 - The owner of a shared area must review changes to that area.
