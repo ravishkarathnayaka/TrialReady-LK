@@ -615,7 +615,14 @@ ALTER TABLE public.student_profile_links
 -- requires authenticated application access.
 --
 
-GRANT USAGE ON SCHEMA public TO authenticated, service_role;
+-- Remove default schema access so anonymous/API roles do not
+-- inherit access through PostgreSQL's PUBLIC pseudo-role.
+
+REVOKE ALL PRIVILEGES ON SCHEMA public
+FROM PUBLIC, anon, authenticated, service_role;
+
+GRANT USAGE ON SCHEMA public
+TO authenticated, service_role;
 -- Reset any platform/default table privileges first so that this
 -- migration produces the same permission model on every project.
 
