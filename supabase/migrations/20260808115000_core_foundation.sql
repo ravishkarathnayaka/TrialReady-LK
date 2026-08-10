@@ -603,6 +603,103 @@ ALTER TABLE public.instructor_profile_links
 ALTER TABLE public.student_profile_links
     ENABLE ROW LEVEL SECURITY;
 
+-- ============================================================
+-- Table Privileges for Supabase Data API Roles
+-- ============================================================
+--
+-- PostgreSQL GRANTs determine whether a role can access a table.
+-- Row Level Security policies below determine which rows the
+-- authenticated role may access.
+--
+-- No privileges are granted to anon because TrialReady LK
+-- requires authenticated application access.
+--
+
+GRANT USAGE ON SCHEMA public TO authenticated, service_role;
+-- Reset any platform/default table privileges first so that this
+-- migration produces the same permission model on every project.
+
+REVOKE ALL PRIVILEGES
+ON TABLE
+    public.driving_schools,
+    public.branches,
+    public.profiles,
+    public.licence_categories,
+    public.instructors,
+    public.instructor_licence_categories,
+    public.students,
+    public.student_licence_categories,
+    public.instructor_profile_links,
+    public.student_profile_links
+FROM anon, authenticated, service_role;
+
+-- ------------------------------------------------------------
+-- Authenticated application users
+-- ------------------------------------------------------------
+
+GRANT SELECT, UPDATE
+ON TABLE public.driving_schools
+TO authenticated;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON TABLE public.branches
+TO authenticated;
+
+GRANT SELECT, UPDATE
+ON TABLE public.profiles
+TO authenticated;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON TABLE public.licence_categories
+TO authenticated;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON TABLE public.instructors
+TO authenticated;
+
+GRANT SELECT, INSERT, DELETE
+ON TABLE public.instructor_licence_categories
+TO authenticated;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON TABLE public.students
+TO authenticated;
+
+GRANT SELECT, INSERT, DELETE
+ON TABLE public.student_licence_categories
+TO authenticated;
+
+GRANT SELECT, INSERT, DELETE
+ON TABLE public.instructor_profile_links
+TO authenticated;
+
+GRANT SELECT, INSERT, DELETE
+ON TABLE public.student_profile_links
+TO authenticated;
+
+
+-- ------------------------------------------------------------
+-- Trusted server-side Supabase client
+-- ------------------------------------------------------------
+--
+-- service_role is reserved for trusted backend operations.
+-- It must never be exposed to the frontend.
+--
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON TABLE
+    public.driving_schools,
+    public.branches,
+    public.profiles,
+    public.licence_categories,
+    public.instructors,
+    public.instructor_licence_categories,
+    public.students,
+    public.student_licence_categories,
+    public.instructor_profile_links,
+    public.student_profile_links
+TO service_role;
+
     -- ============================================================
 -- Driving School Policies
 -- ============================================================
