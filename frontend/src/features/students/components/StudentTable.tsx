@@ -5,6 +5,7 @@ interface StudentTableProps {
   students: Student[]
   isLoading?: boolean
   onEdit?: (student: Student) => void
+  onManageEnrolment?: (student: Student) => void
   onToggleStatus?: (student: Student) => void
 }
 
@@ -14,6 +15,7 @@ function StudentTable({
   students,
   isLoading = false,
   onEdit,
+  onManageEnrolment,
   onToggleStatus,
 }: StudentTableProps) {
   const [searchTerm, setSearchTerm] = useState('')
@@ -184,11 +186,10 @@ function StudentTable({
 
                   <td className="whitespace-nowrap px-5 py-4">
                     <span
-                      className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
-                        student.is_active
-                          ? 'bg-green-100 text-green-700'
-                          : 'bg-slate-100 text-slate-600'
-                      }`}
+                      className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${student.is_active
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-slate-100 text-slate-600'
+                        }`}
                     >
                       {student.is_active
                         ? 'Active'
@@ -208,17 +209,26 @@ function StudentTable({
                         </button>
                       )}
 
+                      {onManageEnrolment && (
+                        <button
+                          type="button"
+                          onClick={() => onManageEnrolment(student)}
+                          className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700 hover:bg-blue-100"
+                        >
+                          Licence Categories
+                        </button>
+                      )}
+
                       {onToggleStatus && (
                         <button
                           type="button"
                           onClick={() =>
                             onToggleStatus(student)
                           }
-                          className={`rounded-lg px-3 py-1.5 text-sm font-medium ${
-                            student.is_active
-                              ? 'bg-red-50 text-red-700 hover:bg-red-100'
-                              : 'bg-green-50 text-green-700 hover:bg-green-100'
-                          }`}
+                          className={`rounded-lg px-3 py-1.5 text-sm font-medium ${student.is_active
+                            ? 'bg-red-50 text-red-700 hover:bg-red-100'
+                            : 'bg-green-50 text-green-700 hover:bg-green-100'
+                            }`}
                         >
                           {student.is_active
                             ? 'Deactivate'
