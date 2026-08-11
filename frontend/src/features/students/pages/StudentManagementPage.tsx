@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import StudentForm from '../components/StudentForm'
+import StudentLicenceEnrolment from '../components/StudentLicenceEnrolment'
 import StudentTable from '../components/StudentTable'
 import {
   createStudent,
@@ -22,6 +23,8 @@ function StudentManagementPage({
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const [enrolmentStudent, setEnrolmentStudent] =
+    useState<Student | null>(null)
 
   const [errorMessage, setErrorMessage] = useState<string | null>(
     null,
@@ -32,39 +35,39 @@ function StudentManagementPage({
   >(null)
 
   useEffect(() => {
-  let isCancelled = false
+    let isCancelled = false
 
-  getStudents()
-    .then((data) => {
-      if (isCancelled) {
-        return
-      }
+    getStudents()
+      .then((data) => {
+        if (isCancelled) {
+          return
+        }
 
-      setStudents(data)
-      setErrorMessage(null)
-    })
-    .catch((error: unknown) => {
-      if (isCancelled) {
-        return
-      }
+        setStudents(data)
+        setErrorMessage(null)
+      })
+      .catch((error: unknown) => {
+        if (isCancelled) {
+          return
+        }
 
-      console.error(error)
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : 'Unable to load students.',
-      )
-    })
-    .finally(() => {
-      if (!isCancelled) {
-        setIsLoading(false)
-      }
-    })
+        console.error(error)
+        setErrorMessage(
+          error instanceof Error
+            ? error.message
+            : 'Unable to load students.',
+        )
+      })
+      .finally(() => {
+        if (!isCancelled) {
+          setIsLoading(false)
+        }
+      })
 
-  return () => {
-    isCancelled = true
-  }
-}, [])
+    return () => {
+      isCancelled = true
+    }
+  }, [])
 
   async function handleCreateStudent(
     input: CreateStudentInput,
@@ -150,6 +153,7 @@ function StudentManagementPage({
               onClick={() => {
                 setErrorMessage(null)
                 setSuccessMessage(null)
+                setEnrolmentStudent(null)
                 setIsFormOpen(true)
               }}
               className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
@@ -188,9 +192,50 @@ function StudentManagementPage({
             }}
           />
         )}
+
+        {enrolmentStudent && (
+          <section className="space-y-4">
+            <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm text-slate-500">
+                  Managing licence categories for
+                </p>
+
+                <h2 className="text-lg font-semibold text-slate-900">
+                  {enrolmentStudent.full_name}
+                </h2>
+
+                {enrolmentStudent.student_code && (
+                  <p className="mt-1 text-sm text-slate-500">
+                    Student Code: {enrolmentStudent.student_code}
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setEnrolmentStudent(null)}
+                className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
+                Close
+              </button>
+            </div>
+
+            <StudentLicenceEnrolment
+              studentId={enrolmentStudent.id}
+              drivingSchoolId={drivingSchoolId}
+            />
+          </section>
+        )}
         <StudentTable
           students={students}
           isLoading={isLoading}
+          onManageEnrolment={(student) => {
+            setIsFormOpen(false)
+            setErrorMessage(null)
+            setSuccessMessage(null)
+            setEnrolmentStudent(student)
+          }}
           onToggleStatus={handleToggleStatus}
         />
       </div>
