@@ -9,6 +9,9 @@ export type BranchValidationErrors = Partial<
   Record<keyof BranchValidationInput, string>
 >
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const PHONE_PATTERN = /^[0-9+\-()\s]+$/
+
 export function validateBranch(
   input: BranchValidationInput,
 ): BranchValidationErrors {
@@ -19,17 +22,13 @@ export function validateBranch(
   }
 
   if (input.email.trim()) {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-    if (!emailPattern.test(input.email.trim())) {
+    if (!EMAIL_PATTERN.test(input.email.trim())) {
       errors.email = 'Enter a valid email address.'
     }
   }
 
   if (input.phone.trim()) {
-    const phonePattern = /^[0-9+\-()\s]+$/
-
-    if (!phonePattern.test(input.phone.trim())) {
+    if (!PHONE_PATTERN.test(input.phone.trim())) {
       errors.phone = 'Enter a valid phone number.'
     }
   }
