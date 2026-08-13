@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { getBranches } from '../../branches/services/branchService'
 import type { Branch } from '../../branches/types/branch'
 import InstructorForm from '../components/InstructorForm'
+import InstructorLicenceCategoryManager from '../components/InstructorLicenceCategoryManager'
 import InstructorTable from '../components/InstructorTable'
 import {
   createInstructor,
@@ -28,6 +29,11 @@ function InstructorManagementPage({
   const [branches, setBranches] = useState<Branch[]>([])
   const [editingInstructor, setEditingInstructor] =
     useState<Instructor | null>(null)
+
+  const [
+    licenceCategoryInstructor,
+    setLicenceCategoryInstructor,
+  ] = useState<Instructor | null>(null)
 
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -70,8 +76,10 @@ function InstructorManagementPage({
     }
   }, [])
 
+
   function openCreateForm() {
     setEditingInstructor(null)
+    setLicenceCategoryInstructor(null)
     setSuccessMessage(null)
     setErrorMessage(null)
     setIsFormOpen(true)
@@ -79,6 +87,7 @@ function InstructorManagementPage({
 
   function openEditForm(instructor: Instructor) {
     setEditingInstructor(instructor)
+    setLicenceCategoryInstructor(null)
     setSuccessMessage(null)
     setErrorMessage(null)
     setIsFormOpen(true)
@@ -87,6 +96,20 @@ function InstructorManagementPage({
   function closeForm() {
     setEditingInstructor(null)
     setIsFormOpen(false)
+  }
+
+  function openLicenceCategoryManager(
+    instructor: Instructor,
+  ) {
+    setEditingInstructor(null)
+    setIsFormOpen(false)
+    setLicenceCategoryInstructor(instructor)
+    setSuccessMessage(null)
+    setErrorMessage(null)
+  }
+
+  function closeLicenceCategoryManager() {
+    setLicenceCategoryInstructor(null)
   }
 
   async function handleSave(
@@ -196,7 +219,7 @@ function InstructorManagementPage({
             </p>
           </div>
 
-          {!isFormOpen && (
+          {!isFormOpen && !licenceCategoryInstructor && (
             <button
               type="button"
               onClick={openCreateForm}
@@ -241,7 +264,14 @@ function InstructorManagementPage({
           </div>
         )}
 
-        {isLoading ? (
+        {licenceCategoryInstructor ? (
+          <InstructorLicenceCategoryManager
+            key={licenceCategoryInstructor.id}
+            instructor={licenceCategoryInstructor}
+            drivingSchoolId={drivingSchoolId}
+            onClose={closeLicenceCategoryManager}
+          />
+        ) : isLoading ? (
           <section className="rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center shadow-sm">
             <p className="font-medium text-slate-900">
               Loading instructors...
@@ -252,6 +282,9 @@ function InstructorManagementPage({
             instructors={instructors}
             branches={branches}
             onEdit={openEditForm}
+            onManageLicenceCategories={
+              openLicenceCategoryManager
+            }
             onToggleActive={handleToggleActive}
           />
         )}

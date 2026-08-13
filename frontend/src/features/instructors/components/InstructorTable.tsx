@@ -8,6 +8,7 @@ interface InstructorTableProps {
   instructors: Instructor[]
   branches: Branch[]
   onEdit: (instructor: Instructor) => void
+  onManageLicenceCategories: (instructor: Instructor) => void
   onToggleActive: (instructor: Instructor) => Promise<void>
 }
 
@@ -15,6 +16,7 @@ function InstructorTable({
   instructors,
   branches,
   onEdit,
+  onManageLicenceCategories,
   onToggleActive,
 }: InstructorTableProps) {
   const [searchTerm, setSearchTerm] = useState('')
@@ -229,8 +231,8 @@ function InstructorTable({
                   const branchName =
                     instructor.branch_id
                       ? branchNames.get(
-                          instructor.branch_id,
-                        ) ?? 'Unknown branch'
+                        instructor.branch_id,
+                      ) ?? 'Unknown branch'
                       : 'Not assigned'
 
                   return (
@@ -252,7 +254,7 @@ function InstructorTable({
 
                       <td className="px-5 py-4 text-sm text-slate-600">
                         {instructor.phone ||
-                        instructor.email ? (
+                          instructor.email ? (
                           <>
                             {instructor.phone && (
                               <p>
@@ -313,15 +315,24 @@ function InstructorTable({
                       </td>
 
                       <td className="px-5 py-4">
-                        <div className="flex justify-end gap-2">
+                        <div className="flex flex-wrap justify-end gap-2">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              onManageLicenceCategories(instructor)
+                            }
+                            disabled={isUpdatingAnyInstructor}
+                            className="rounded-lg border border-violet-200 bg-violet-50 px-3 py-2 text-sm font-medium text-violet-700 hover:bg-violet-100 disabled:cursor-not-allowed disabled:opacity-60"
+                          >
+                            Categories
+                          </button>
+
                           <button
                             type="button"
                             onClick={() =>
                               onEdit(instructor)
                             }
-                            disabled={
-                              isUpdatingAnyInstructor
-                            }
+                            disabled={isUpdatingAnyInstructor}
                             className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
                           >
                             Edit
@@ -358,8 +369,9 @@ function InstructorTable({
             </tbody>
           </table>
         </div>
-      )}
-    </section>
+      )
+      }
+    </section >
   )
 }
 
