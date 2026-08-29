@@ -9,6 +9,8 @@ import AdminDashboardPage from '../features/dashboard/pages/AdminDashboardPage'
 import InstructorManagementPage from '../features/instructors/pages/InstructorManagementPage'
 import AppShell from '../features/layout/components/AppShell'
 import StudentManagementPage from '../features/students/pages/StudentManagementPage'
+import StudentJourneyOverviewPage from '../features/journey/pages/StudentJourneyOverviewPage'
+import StudentJourneyDetailPage from '../features/journey/pages/StudentJourneyDetailPage'
 import PracticalSessionManagementPage from '../features/sessions/pages/PracticalSessionManagementPage'
 import VehicleManagementPage from '../features/vehicles/pages/VehicleManagementPage'
 
@@ -31,6 +33,24 @@ export const AppRoutes: React.FC = () => {
       >
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/dashboard" element={<AdminDashboardPage />} />
+
+        {/* Learner Journey & Compliance */}
+        <Route
+          path="/journey"
+          element={
+            <ProtectedRoute allowedRoles={['administrator', 'instructor']}>
+              <StudentJourneyOverviewPage drivingSchoolId={drivingSchoolId} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/students/:studentId/journey"
+          element={
+            <ProtectedRoute allowedRoles={['administrator', 'instructor']}>
+              <StudentJourneyDetailPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Practical Driving Sessions Module */}
         <Route
