@@ -21,6 +21,12 @@ const NAV_ITEMS: NavItem[] = [
     icon: '📊',
   },
   {
+    label: 'Sessions & Calendar',
+    to: '/sessions',
+    icon: '📅',
+    roles: ['administrator', 'instructor'],
+  },
+  {
     label: 'Vehicles',
     to: '/vehicles',
     icon: '🚗',

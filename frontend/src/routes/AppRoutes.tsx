@@ -9,6 +9,7 @@ import AdminDashboardPage from '../features/dashboard/pages/AdminDashboardPage'
 import InstructorManagementPage from '../features/instructors/pages/InstructorManagementPage'
 import AppShell from '../features/layout/components/AppShell'
 import StudentManagementPage from '../features/students/pages/StudentManagementPage'
+import PracticalSessionManagementPage from '../features/sessions/pages/PracticalSessionManagementPage'
 import VehicleManagementPage from '../features/vehicles/pages/VehicleManagementPage'
 
 export const AppRoutes: React.FC = () => {
@@ -30,6 +31,18 @@ export const AppRoutes: React.FC = () => {
       >
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/dashboard" element={<AdminDashboardPage />} />
+
+        {/* Practical Driving Sessions Module */}
+        <Route
+          path="/sessions"
+          element={
+            <ProtectedRoute allowedRoles={['administrator', 'instructor']}>
+              <PracticalSessionManagementPage
+                drivingSchoolId={drivingSchoolId}
+              />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Vehicle Management Module */}
         <Route
