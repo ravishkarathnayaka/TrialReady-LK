@@ -7,6 +7,13 @@ export const AdminDashboardPage: React.FC = () => {
 
   const quickActions = [
     {
+      title: 'Practical Sessions',
+      description: 'Schedule driving lessons & manage calendar slots',
+      to: '/sessions',
+      icon: '📅',
+      color: 'bg-indigo-500/10 text-indigo-600 border-indigo-200',
+    },
+    {
       title: 'Vehicle Management',
       description: 'Fleet tracking, documents, maintenance & availability',
       to: '/vehicles',
