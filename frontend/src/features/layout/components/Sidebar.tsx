@@ -39,6 +39,12 @@ const NAV_ITEMS: NavItem[] = [
     roles: ['administrator', 'instructor'],
   },
   {
+    label: 'Learner Journey',
+    to: '/journey',
+    icon: '🎓',
+    roles: ['administrator', 'instructor'],
+  },
+  {
     label: 'Instructors',
     to: '/instructors',
     icon: '👨‍🏫',
