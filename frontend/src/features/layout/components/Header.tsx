@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAuth } from '../../auth/context/AuthContext'
+import { DemoSeederModal } from '../../demo/components/DemoSeederModal'
 import { NotificationBellDropdown } from '../../notifications/components/NotificationBellDropdown'
 
 interface HeaderProps {
@@ -8,7 +9,8 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
-  const { profile, role, logout } = useAuth()
+  const { profile, role, drivingSchoolId, logout } = useAuth()
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false)
 
   const getRoleBadgeStyle = (r: string | null) => {
     switch (r) {
@@ -67,6 +69,17 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
       {/* User Actions & Profile */}
       <div className="flex items-center gap-3">
+        {/* Interactive Demo Seeder Button */}
+        <button
+          type="button"
+          onClick={() => setIsDemoModalOpen(true)}
+          className="hidden sm:flex items-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50/80 px-3 py-1.5 text-xs font-black text-emerald-800 hover:bg-emerald-100 transition-all cursor-pointer shadow-2xs"
+          title="Load Full Sri Lanka Demo Academy Data"
+        >
+          <span>🌱</span>
+          <span>Demo Data</span>
+        </button>
+
         {/* Notification Bell Dropdown */}
         <NotificationBellDropdown />
 
@@ -110,6 +123,13 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           </svg>
         </button>
       </div>
+
+      {/* Demo Seeder Modal */}
+      <DemoSeederModal
+        isOpen={isDemoModalOpen}
+        drivingSchoolId={drivingSchoolId}
+        onClose={() => setIsDemoModalOpen(false)}
+      />
     </header>
   )
 }
