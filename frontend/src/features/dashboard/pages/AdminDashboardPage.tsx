@@ -7,6 +7,13 @@ export const AdminDashboardPage: React.FC = () => {
 
   const quickActions = [
     {
+      title: 'Executive Analytics',
+      description: 'DMT trial pass rates, instructor benchmarks & CSV audit exports',
+      to: '/analytics',
+      icon: '📊',
+      color: 'bg-blue-500/10 text-blue-700 border-blue-200',
+    },
+    {
       title: 'Mock Theory Exam',
       description: 'DMT Highway Code 40-question computerized practice test',
       to: '/theory',
