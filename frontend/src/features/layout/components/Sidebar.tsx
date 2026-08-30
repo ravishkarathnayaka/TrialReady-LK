@@ -57,6 +57,12 @@ const NAV_ITEMS: NavItem[] = [
     roles: ['administrator', 'instructor', 'student'],
   },
   {
+    label: 'Alerts & Notices',
+    to: '/notifications',
+    icon: '🔔',
+    roles: ['administrator', 'instructor', 'student'],
+  },
+  {
     label: 'Payments & Fees',
     to: '/financials',
     icon: '💳',
