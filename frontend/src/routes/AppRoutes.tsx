@@ -15,6 +15,8 @@ import SchoolReadinessDashboardPage from '../features/readiness/pages/SchoolRead
 import StudentReadinessPage from '../features/readiness/pages/StudentReadinessPage'
 import FinancialManagementPage from '../features/financials/pages/FinancialManagementPage'
 import StudentPaymentDetailPage from '../features/financials/pages/StudentPaymentDetailPage'
+import TheoryPracticeHubPage from '../features/theory/pages/TheoryPracticeHubPage'
+import MockExamSessionPage from '../features/theory/pages/MockExamSessionPage'
 import InstructorPortalPage from '../features/portal/instructor/pages/InstructorPortalPage'
 import StudentPortalPage from '../features/portal/student/pages/StudentPortalPage'
 import PracticalSessionManagementPage from '../features/sessions/pages/PracticalSessionManagementPage'
@@ -74,6 +76,24 @@ export const AppRoutes: React.FC = () => {
           element={
             <ProtectedRoute allowedRoles={['administrator', 'instructor']}>
               <StudentReadinessPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* DMT Theory & Highway Code Practice */}
+        <Route
+          path="/theory"
+          element={
+            <ProtectedRoute>
+              <TheoryPracticeHubPage drivingSchoolId={drivingSchoolId} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/theory/exam"
+          element={
+            <ProtectedRoute>
+              <MockExamSessionPage />
             </ProtectedRoute>
           }
         />

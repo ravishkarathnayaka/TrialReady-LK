@@ -51,6 +51,12 @@ const NAV_ITEMS: NavItem[] = [
     roles: ['administrator', 'instructor'],
   },
   {
+    label: 'Mock Theory Exam',
+    to: '/theory',
+    icon: '📖',
+    roles: ['administrator', 'instructor', 'student'],
+  },
+  {
     label: 'Payments & Fees',
     to: '/financials',
     icon: '💳',
