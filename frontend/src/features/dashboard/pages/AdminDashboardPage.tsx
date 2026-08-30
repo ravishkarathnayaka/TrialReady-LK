@@ -7,6 +7,13 @@ export const AdminDashboardPage: React.FC = () => {
 
   const quickActions = [
     {
+      title: 'Mock Theory Exam',
+      description: 'DMT Highway Code 40-question computerized practice test',
+      to: '/theory',
+      icon: '📖',
+      color: 'bg-amber-500/10 text-amber-700 border-amber-200',
+    },
+    {
       title: 'Trial Readiness (AI)',
       description: 'AI trial evaluation, DMT skills & candidate selection',
       to: '/readiness',
