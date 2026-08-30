@@ -15,6 +15,8 @@ import SchoolReadinessDashboardPage from '../features/readiness/pages/SchoolRead
 import StudentReadinessPage from '../features/readiness/pages/StudentReadinessPage'
 import FinancialManagementPage from '../features/financials/pages/FinancialManagementPage'
 import StudentPaymentDetailPage from '../features/financials/pages/StudentPaymentDetailPage'
+import InstructorPortalPage from '../features/portal/instructor/pages/InstructorPortalPage'
+import StudentPortalPage from '../features/portal/student/pages/StudentPortalPage'
 import PracticalSessionManagementPage from '../features/sessions/pages/PracticalSessionManagementPage'
 import VehicleManagementPage from '../features/vehicles/pages/VehicleManagementPage'
 
@@ -90,6 +92,24 @@ export const AppRoutes: React.FC = () => {
           element={
             <ProtectedRoute allowedRoles={['administrator']}>
               <StudentPaymentDetailPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Dedicated Portals */}
+        <Route
+          path="/instructor/portal"
+          element={
+            <ProtectedRoute allowedRoles={['administrator', 'instructor']}>
+              <InstructorPortalPage drivingSchoolId={drivingSchoolId} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/student/portal"
+          element={
+            <ProtectedRoute allowedRoles={['administrator', 'student']}>
+              <StudentPortalPage drivingSchoolId={drivingSchoolId} />
             </ProtectedRoute>
           }
         />
