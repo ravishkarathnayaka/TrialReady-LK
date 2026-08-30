@@ -11,6 +11,8 @@ import AppShell from '../features/layout/components/AppShell'
 import StudentManagementPage from '../features/students/pages/StudentManagementPage'
 import StudentJourneyOverviewPage from '../features/journey/pages/StudentJourneyOverviewPage'
 import StudentJourneyDetailPage from '../features/journey/pages/StudentJourneyDetailPage'
+import FinancialManagementPage from '../features/financials/pages/FinancialManagementPage'
+import StudentPaymentDetailPage from '../features/financials/pages/StudentPaymentDetailPage'
 import PracticalSessionManagementPage from '../features/sessions/pages/PracticalSessionManagementPage'
 import VehicleManagementPage from '../features/vehicles/pages/VehicleManagementPage'
 
@@ -48,6 +50,24 @@ export const AppRoutes: React.FC = () => {
           element={
             <ProtectedRoute allowedRoles={['administrator', 'instructor']}>
               <StudentJourneyDetailPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Financials, Payments & Course Packages */}
+        <Route
+          path="/financials"
+          element={
+            <ProtectedRoute allowedRoles={['administrator']}>
+              <FinancialManagementPage drivingSchoolId={drivingSchoolId} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/students/:studentId/payments"
+          element={
+            <ProtectedRoute allowedRoles={['administrator']}>
+              <StudentPaymentDetailPage />
             </ProtectedRoute>
           }
         />
