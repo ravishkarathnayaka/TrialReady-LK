@@ -7,11 +7,18 @@ export const AdminDashboardPage: React.FC = () => {
 
   const quickActions = [
     {
+      title: 'Payments & Fees',
+      description: 'Fee instalments, outstanding balances & receipts',
+      to: '/financials',
+      icon: '💳',
+      color: 'bg-emerald-500/10 text-emerald-600 border-emerald-200',
+    },
+    {
       title: 'Learner Journey',
       description: 'DMT permits, NTMI medicals & exam trial milestones',
       to: '/journey',
       icon: '🎓',
-      color: 'bg-emerald-500/10 text-emerald-600 border-emerald-200',
+      color: 'bg-blue-500/10 text-blue-600 border-blue-200',
     },
     {
       title: 'Practical Sessions',
