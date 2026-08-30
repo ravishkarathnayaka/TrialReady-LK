@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { useTheoryLanguage } from '../context/TheoryLanguageContext'
 import { SRI_LANKA_DMT_QUESTION_BANK } from '../data/sriLankaQuestionBank'
 
 export const RoadSignsFlashcards: React.FC = () => {
+  const { getLocalizedQuestion } = useTheoryLanguage()
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [isFlipped, setIsFlipped] = useState(false)
@@ -12,6 +14,7 @@ export const RoadSignsFlashcards: React.FC = () => {
   })
 
   const currentQ = filteredQuestions[currentCardIndex] || filteredQuestions[0]
+  const localized = currentQ ? getLocalizedQuestion(currentQ) : null
 
   const handleNext = () => {
     setIsFlipped(false)
@@ -31,9 +34,9 @@ export const RoadSignsFlashcards: React.FC = () => {
     setIsFlipped(false)
   }
 
-  if (!currentQ) return null
+  if (!currentQ || !localized) return null
 
-  const correctOptionText = currentQ.options[currentQ.correct_option_index]
+  const correctOptionText = localized.options[currentQ.correct_option_index]
 
   return (
     <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
@@ -115,7 +118,7 @@ export const RoadSignsFlashcards: React.FC = () => {
               </div>
             )}
             <h4 className="text-base font-bold text-slate-900 max-w-md">
-              {currentQ.question_text}
+              {localized.question_text}
             </h4>
             <span className="inline-block text-xs font-bold text-blue-600 underline">
               Show Meaning & Rule ↓
@@ -130,7 +133,7 @@ export const RoadSignsFlashcards: React.FC = () => {
               {correctOptionText}
             </p>
             <p className="text-xs text-slate-600 max-w-md bg-white p-3 rounded-xl border border-slate-200">
-              {currentQ.explanation}
+              {localized.explanation}
             </p>
           </div>
         )}

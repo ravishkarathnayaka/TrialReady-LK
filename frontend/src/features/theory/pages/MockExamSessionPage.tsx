@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/context/AuthContext'
 import { ExamResultSummaryModal } from '../components/ExamResultSummaryModal'
 import { ExamTimerHeader } from '../components/ExamTimerHeader'
+import { LanguageSelectorPill } from '../components/LanguageSelectorPill'
 import { TheoryQuestionCard } from '../components/TheoryQuestionCard'
+import { TheoryLanguageProvider } from '../context/TheoryLanguageContext'
 import { useMockExamSimulator } from '../hooks/useMockExamSimulator'
 
-export const MockExamSessionPage: React.FC = () => {
+export const MockExamSessionContent: React.FC = () => {
   const navigate = useNavigate()
   const { drivingSchoolId, user } = useAuth()
   const studentId = user?.id || 'demo-student'
@@ -82,6 +84,18 @@ export const MockExamSessionPage: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
+      {/* Top Language Bar */}
+      <div className="flex items-center justify-between">
+        <button
+          type="button"
+          onClick={handleExit}
+          className="text-xs font-bold text-slate-600 hover:text-slate-900 cursor-pointer"
+        >
+          ← Back to Practice Hub
+        </button>
+        <LanguageSelectorPill />
+      </div>
+
       {/* Top Timer & Header */}
       <ExamTimerHeader
         timeRemainingSeconds={timeRemainingSeconds}
@@ -207,6 +221,14 @@ export const MockExamSessionPage: React.FC = () => {
         />
       )}
     </div>
+  )
+}
+
+export const MockExamSessionPage: React.FC = () => {
+  return (
+    <TheoryLanguageProvider>
+      <MockExamSessionContent />
+    </TheoryLanguageProvider>
   )
 }
 
