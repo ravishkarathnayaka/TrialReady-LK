@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTheoryLanguage } from '../context/TheoryLanguageContext'
 import type { TheoryQuestion } from '../types/theory'
 
 interface TheoryQuestionCardProps {
@@ -18,20 +19,47 @@ export const TheoryQuestionCard: React.FC<TheoryQuestionCardProps> = ({
   isReviewMode = false,
   onSelectOption,
 }) => {
+  const { getLocalizedQuestion, language } = useTheoryLanguage()
+  const localized = getLocalizedQuestion(question)
+
   const getCategoryLabel = (cat: string) => {
     switch (cat) {
       case 'road_signs_regulatory':
-        return '🛑 Regulatory Road Signs'
+        return language === 'si'
+          ? '🛑 නියාමන මාර්ග සංඥා'
+          : language === 'ta'
+            ? '🛑 ஒழுங்குமுறை சைகைகள்'
+            : '🛑 Regulatory Road Signs'
       case 'road_signs_warning':
-        return '⚠️ Warning Road Signs'
+        return language === 'si'
+          ? '⚠️ අනතුරු ඇඟවීමේ සංඥා'
+          : language === 'ta'
+            ? '⚠️ எச்சரிக்கை சைகைகள்'
+            : '⚠️ Warning Road Signs'
       case 'road_signs_informative':
-        return 'ℹ️ Informative Signs'
+        return language === 'si'
+          ? 'ℹ️ තොරතුරු සංඥා'
+          : language === 'ta'
+            ? 'ℹ️ தகவல் சைகைகள்'
+            : 'ℹ️ Informative Signs'
       case 'priority_and_junctions':
-        return '🚗 Priority & Right of Way'
+        return language === 'si'
+          ? '🚗 ප්‍රමුඛතා නීති හා මංසන්ධි'
+          : language === 'ta'
+            ? '🚗 முன்னுரிமை & சந்திப்புகள்'
+            : '🚗 Priority & Right of Way'
       case 'general_road_safety':
-        return '🛡️ General Road Safety & DMT Laws'
+        return language === 'si'
+          ? '🛡️ මාර්ග ආරක්ෂාව හා නීති'
+          : language === 'ta'
+            ? '🛡️ வீதி பாதுகாப்பு & சட்டங்கள்'
+            : '🛡️ General Road Safety & DMT Laws'
       case 'vehicle_mechanics_controls':
-        return '⚙️ Vehicle Controls & Mechanics'
+        return language === 'si'
+          ? '⚙️ වාහන පාලනය හා යාන්ත්‍රික කරුණු'
+          : language === 'ta'
+            ? '⚙️ வாகனக் கட்டுப்பாடுகள்'
+            : '⚙️ Vehicle Controls & Mechanics'
       default:
         return cat
     }
@@ -63,13 +91,13 @@ export const TheoryQuestionCard: React.FC<TheoryQuestionCardProps> = ({
         )}
 
         <h3 className="text-base font-bold text-slate-900 leading-relaxed sm:text-lg">
-          {question.question_text}
+          {localized.question_text}
         </h3>
       </div>
 
       {/* Options List */}
       <div className="space-y-2.5">
-        {question.options.map((optionText, idx) => {
+        {localized.options.map((optionText, idx) => {
           const isSelected = selectedOptionIndex === idx
           const isCorrect = idx === question.correct_option_index
 
@@ -140,7 +168,7 @@ export const TheoryQuestionCard: React.FC<TheoryQuestionCardProps> = ({
           <strong className="block text-blue-900 font-bold mb-1">
             💡 DMT Highway Code Explanation:
           </strong>
-          {question.explanation}
+          {localized.explanation}
         </div>
       )}
     </div>

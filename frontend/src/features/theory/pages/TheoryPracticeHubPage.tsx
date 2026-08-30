@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/context/AuthContext'
+import { LanguageSelectorPill } from '../components/LanguageSelectorPill'
 import { RoadSignsFlashcards } from '../components/RoadSignsFlashcards'
+import { TheoryLanguageProvider } from '../context/TheoryLanguageContext'
 import { useTheoryHistory } from '../hooks/useTheoryHistory'
 
 interface TheoryPracticeHubPageProps {
@@ -9,7 +11,7 @@ interface TheoryPracticeHubPageProps {
   studentId?: string
 }
 
-export const TheoryPracticeHubPage: React.FC<
+export const TheoryPracticeHubContent: React.FC<
   TheoryPracticeHubPageProps
 > = ({ studentId }) => {
   const { user } = useAuth()
@@ -33,14 +35,17 @@ export const TheoryPracticeHubPage: React.FC<
       {/* Top Hero Banner */}
       <div className="rounded-3xl border border-blue-200 bg-linear-to-r from-blue-900 via-indigo-900 to-slate-900 p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="space-y-2">
-          <span className="inline-block rounded-full bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-300 border border-blue-400/30">
-            DMT Highway Code Practice Center
-          </span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-block rounded-full bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-300 border border-blue-400/30">
+              DMT Highway Code Practice Center
+            </span>
+            <LanguageSelectorPill />
+          </div>
           <h1 className="text-2xl font-black tracking-tight sm:text-3xl">
             Computerized Mock Exam Simulator
           </h1>
           <p className="text-xs text-slate-300 max-w-xl leading-relaxed">
-            Practice with authentic Sri Lankan Department of Motor Traffic (DMT) Highway Code questions, road signs, and traffic rules. 40 questions, 30 minutes, 75% pass mark.
+            Practice with authentic Sri Lankan Department of Motor Traffic (DMT) Highway Code questions, road signs, and traffic rules in English, Sinhala (සිංහල), and Tamil (தமிழ்).
           </p>
         </div>
 
@@ -185,6 +190,16 @@ export const TheoryPracticeHubPage: React.FC<
         </div>
       )}
     </div>
+  )
+}
+
+export const TheoryPracticeHubPage: React.FC<TheoryPracticeHubPageProps> = (
+  props,
+) => {
+  return (
+    <TheoryLanguageProvider>
+      <TheoryPracticeHubContent {...props} />
+    </TheoryLanguageProvider>
   )
 }
 

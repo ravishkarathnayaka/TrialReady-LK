@@ -1,3 +1,5 @@
+export type TheoryLanguage = 'en' | 'si' | 'ta'
+
 export type TheoryQuestionCategory =
   | 'road_signs_regulatory'
   | 'road_signs_warning'
@@ -5,6 +7,12 @@ export type TheoryQuestionCategory =
   | 'priority_and_junctions'
   | 'general_road_safety'
   | 'vehicle_mechanics_controls'
+
+export interface QuestionTranslation {
+  question_text: string
+  options: string[]
+  explanation: string
+}
 
 export interface TheoryQuestion {
   id: string
@@ -14,6 +22,11 @@ export interface TheoryQuestion {
   options: string[]
   correct_option_index: number
   explanation: string
+  translations?: {
+    en?: QuestionTranslation
+    si?: QuestionTranslation
+    ta?: QuestionTranslation
+  }
 }
 
 export interface StudentAnswer {
