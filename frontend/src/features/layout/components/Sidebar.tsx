@@ -69,6 +69,12 @@ const NAV_ITEMS: NavItem[] = [
     roles: ['administrator'],
   },
   {
+    label: 'Executive Analytics',
+    to: '/analytics',
+    icon: '📊',
+    roles: ['administrator'],
+  },
+  {
     label: 'Instructor Portal',
     to: '/instructor/portal',
     icon: '👨‍🏫',

@@ -15,6 +15,7 @@ import SchoolReadinessDashboardPage from '../features/readiness/pages/SchoolRead
 import StudentReadinessPage from '../features/readiness/pages/StudentReadinessPage'
 import FinancialManagementPage from '../features/financials/pages/FinancialManagementPage'
 import StudentPaymentDetailPage from '../features/financials/pages/StudentPaymentDetailPage'
+import ExecutiveAnalyticsPage from '../features/analytics/pages/ExecutiveAnalyticsPage'
 import NotificationsCenterPage from '../features/notifications/pages/NotificationsCenterPage'
 import TheoryPracticeHubPage from '../features/theory/pages/TheoryPracticeHubPage'
 import MockExamSessionPage from '../features/theory/pages/MockExamSessionPage'
@@ -123,6 +124,16 @@ export const AppRoutes: React.FC = () => {
           element={
             <ProtectedRoute allowedRoles={['administrator']}>
               <StudentPaymentDetailPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Executive Analytics, Benchmarking & DMT Audit Reports */}
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute allowedRoles={['administrator']}>
+              <ExecutiveAnalyticsPage drivingSchoolId={drivingSchoolId} />
             </ProtectedRoute>
           }
         />
