@@ -15,6 +15,7 @@ import SchoolReadinessDashboardPage from '../features/readiness/pages/SchoolRead
 import StudentReadinessPage from '../features/readiness/pages/StudentReadinessPage'
 import FinancialManagementPage from '../features/financials/pages/FinancialManagementPage'
 import StudentPaymentDetailPage from '../features/financials/pages/StudentPaymentDetailPage'
+import NotificationsCenterPage from '../features/notifications/pages/NotificationsCenterPage'
 import TheoryPracticeHubPage from '../features/theory/pages/TheoryPracticeHubPage'
 import MockExamSessionPage from '../features/theory/pages/MockExamSessionPage'
 import InstructorPortalPage from '../features/portal/instructor/pages/InstructorPortalPage'
@@ -94,6 +95,16 @@ export const AppRoutes: React.FC = () => {
           element={
             <ProtectedRoute>
               <MockExamSessionPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Alerts, Reminders & Notices */}
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <NotificationsCenterPage drivingSchoolId={drivingSchoolId} />
             </ProtectedRoute>
           }
         />

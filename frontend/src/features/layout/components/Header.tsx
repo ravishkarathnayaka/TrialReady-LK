@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuth } from '../../auth/context/AuthContext'
+import { NotificationBellDropdown } from '../../notifications/components/NotificationBellDropdown'
 
 interface HeaderProps {
   onToggleSidebar: () => void
@@ -66,6 +67,9 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
       {/* User Actions & Profile */}
       <div className="flex items-center gap-3">
+        {/* Notification Bell Dropdown */}
+        <NotificationBellDropdown />
+
         <div className="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-1.5">
           <div className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white shadow-xs">
             {profile?.full_name?.charAt(0).toUpperCase() ?? 'U'}
