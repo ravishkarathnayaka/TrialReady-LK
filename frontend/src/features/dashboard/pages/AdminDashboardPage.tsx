@@ -7,6 +7,13 @@ export const AdminDashboardPage: React.FC = () => {
 
   const quickActions = [
     {
+      title: 'Trial Readiness (AI)',
+      description: 'AI trial evaluation, DMT skills & candidate selection',
+      to: '/readiness',
+      icon: '🎯',
+      color: 'bg-purple-500/10 text-purple-600 border-purple-200',
+    },
+    {
       title: 'Payments & Fees',
       description: 'Fee instalments, outstanding balances & receipts',
       to: '/financials',

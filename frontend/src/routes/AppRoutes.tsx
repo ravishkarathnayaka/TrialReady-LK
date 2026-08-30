@@ -11,6 +11,8 @@ import AppShell from '../features/layout/components/AppShell'
 import StudentManagementPage from '../features/students/pages/StudentManagementPage'
 import StudentJourneyOverviewPage from '../features/journey/pages/StudentJourneyOverviewPage'
 import StudentJourneyDetailPage from '../features/journey/pages/StudentJourneyDetailPage'
+import SchoolReadinessDashboardPage from '../features/readiness/pages/SchoolReadinessDashboardPage'
+import StudentReadinessPage from '../features/readiness/pages/StudentReadinessPage'
 import FinancialManagementPage from '../features/financials/pages/FinancialManagementPage'
 import StudentPaymentDetailPage from '../features/financials/pages/StudentPaymentDetailPage'
 import PracticalSessionManagementPage from '../features/sessions/pages/PracticalSessionManagementPage'
@@ -50,6 +52,26 @@ export const AppRoutes: React.FC = () => {
           element={
             <ProtectedRoute allowedRoles={['administrator', 'instructor']}>
               <StudentJourneyDetailPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* AI Trial Readiness & Candidate Hub */}
+        <Route
+          path="/readiness"
+          element={
+            <ProtectedRoute allowedRoles={['administrator', 'instructor']}>
+              <SchoolReadinessDashboardPage
+                drivingSchoolId={drivingSchoolId}
+              />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/students/:studentId/readiness"
+          element={
+            <ProtectedRoute allowedRoles={['administrator', 'instructor']}>
+              <StudentReadinessPage />
             </ProtectedRoute>
           }
         />

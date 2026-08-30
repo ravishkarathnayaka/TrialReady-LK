@@ -45,6 +45,12 @@ const NAV_ITEMS: NavItem[] = [
     roles: ['administrator', 'instructor'],
   },
   {
+    label: 'Trial Readiness (AI)',
+    to: '/readiness',
+    icon: '🎯',
+    roles: ['administrator', 'instructor'],
+  },
+  {
     label: 'Payments & Fees',
     to: '/financials',
     icon: '💳',
