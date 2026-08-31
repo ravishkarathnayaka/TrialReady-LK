@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useAuth } from '../../auth/context/AuthContext'
+import { DmtLogbookModal } from '../../logbook/components/DmtLogbookModal'
+import { DmtTrialSlipModal } from '../../logbook/components/DmtTrialSlipModal'
+import { useStudentLogbook } from '../../logbook/hooks/useStudentLogbook'
 import { ExamTrialMilestones } from '../components/ExamTrialMilestones'
 import { MedicalStatusCard } from '../components/MedicalStatusCard'
 import { PermitTrackerCard } from '../components/PermitTrackerCard'
@@ -22,6 +25,10 @@ export const StudentJourneyDetailPage: React.FC = () => {
     handleSaveMedical,
     handleSaveExamTrial,
   } = useStudentJourney(studentId || '')
+
+  const { logbookData, getTrialSlipData } = useStudentLogbook(drivingSchoolId, studentId || '')
+  const [showLogbook, setShowLogbook] = useState(false)
+  const [showTrialSlip, setShowTrialSlip] = useState(false)
 
   if (isLoading) {
     return (
@@ -80,6 +87,24 @@ export const StudentJourneyDetailPage: React.FC = () => {
           </div>
 
           <div className="flex gap-2">
+            {logbookData && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setShowLogbook(true)}
+                  className="rounded-xl border border-blue-300 bg-blue-50 px-3.5 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-100 transition-all cursor-pointer flex items-center gap-1.5"
+                >
+                  📄 View DMT Logbook
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowTrialSlip(true)}
+                  className="rounded-xl border border-emerald-300 bg-emerald-50 px-3.5 py-1.5 text-xs font-semibold text-emerald-700 hover:bg-emerald-100 transition-all cursor-pointer flex items-center gap-1.5"
+                >
+                  🎫 Print Trial Pass
+                </button>
+              </>
+            )}
             <Link
               to="/students"
               className="rounded-xl border border-slate-300 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all cursor-pointer"
@@ -149,6 +174,27 @@ export const StudentJourneyDetailPage: React.FC = () => {
         practicalTrials={journey.practicalTrials}
         onSaveExamTrial={handleSaveExamTrial}
       />
+
+      {/* DMT Logbook & Trial Slip Modals */}
+      {logbookData && (
+        <>
+          <DmtLogbookModal
+            isOpen={showLogbook}
+            onClose={() => setShowLogbook(false)}
+            data={logbookData}
+          />
+          {(() => {
+            const slipData = getTrialSlipData()
+            return slipData ? (
+              <DmtTrialSlipModal
+                isOpen={showTrialSlip}
+                onClose={() => setShowTrialSlip(false)}
+                data={slipData}
+              />
+            ) : null
+          })()}
+        </>
+      )}
     </div>
   )
 }

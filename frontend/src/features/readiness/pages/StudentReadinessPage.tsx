@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { useAuth } from '../../auth/context/AuthContext'
+import { DmtLogbookModal } from '../../logbook/components/DmtLogbookModal'
+import { useStudentLogbook } from '../../logbook/hooks/useStudentLogbook'
 import { ReadinessFactorChecklist } from '../components/ReadinessFactorChecklist'
 import { ReadinessRecommendationCard } from '../components/ReadinessRecommendationCard'
 import { ReadinessScoreGauge } from '../components/ReadinessScoreGauge'
@@ -7,6 +10,7 @@ import { useStudentReadiness } from '../hooks/useStudentReadiness'
 
 export const StudentReadinessPage: React.FC = () => {
   const { studentId } = useParams<{ studentId: string }>()
+  const { drivingSchoolId } = useAuth()
   const {
     profile,
     isLoading,
@@ -17,6 +21,8 @@ export const StudentReadinessPage: React.FC = () => {
     handleSaveEvaluation,
   } = useStudentReadiness(studentId || '')
 
+  const { logbookData } = useStudentLogbook(drivingSchoolId, studentId || '')
+  const [showLogbook, setShowLogbook] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
 
   const onSave = async () => {
@@ -77,6 +83,15 @@ export const StudentReadinessPage: React.FC = () => {
           </div>
 
           <div className="flex gap-2">
+            {logbookData && (
+              <button
+                type="button"
+                onClick={() => setShowLogbook(true)}
+                className="rounded-xl border border-blue-300 bg-blue-50 px-3.5 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-100 transition-all cursor-pointer flex items-center gap-1.5"
+              >
+                📄 Print DMT Logbook
+              </button>
+            )}
             <Link
               to={`/students/${profile.student.id}/journey`}
               className="rounded-xl border border-slate-300 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all cursor-pointer"
@@ -140,6 +155,15 @@ export const StudentReadinessPage: React.FC = () => {
         onSave={onSave}
         isSaving={isSaving}
       />
+
+      {/* DMT Logbook Modal */}
+      {logbookData && (
+        <DmtLogbookModal
+          isOpen={showLogbook}
+          onClose={() => setShowLogbook(false)}
+          data={logbookData}
+        />
+      )}
     </div>
   )
 }
