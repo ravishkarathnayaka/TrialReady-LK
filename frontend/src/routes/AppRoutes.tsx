@@ -23,6 +23,7 @@ import InstructorPortalPage from '../features/portal/instructor/pages/Instructor
 import StudentPortalPage from '../features/portal/student/pages/StudentPortalPage'
 import PracticalSessionManagementPage from '../features/sessions/pages/PracticalSessionManagementPage'
 import VehicleManagementPage from '../features/vehicles/pages/VehicleManagementPage'
+import NotFoundPage from '../features/layout/pages/NotFoundPage'
 
 export const AppRoutes: React.FC = () => {
   const { drivingSchoolId } = useAuth()
@@ -207,6 +208,8 @@ export const AppRoutes: React.FC = () => {
             </ProtectedRoute>
           }
         />
+        {/* 404 Fallback within AppShell */}
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
 
       {/* Fallback */}
