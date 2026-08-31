@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { AiRemedialQuizModal } from '../../ai/components/AiRemedialQuizModal'
 import { useAuth } from '../../auth/context/AuthContext'
 import { LanguageSelectorPill } from '../components/LanguageSelectorPill'
 import { RoadSignsFlashcards } from '../components/RoadSignsFlashcards'
@@ -20,6 +21,7 @@ export const TheoryPracticeHubContent: React.FC<
   const [activeTab, setActiveTab] = useState<'flashcards' | 'history'>(
     'flashcards',
   )
+  const [showRemedialModal, setShowRemedialModal] = useState(false)
 
   const {
     attempts,
@@ -49,12 +51,19 @@ export const TheoryPracticeHubContent: React.FC<
           </p>
         </div>
 
-        <div className="shrink-0">
+        <div className="shrink-0 flex flex-wrap gap-2.5">
+          <button
+            type="button"
+            onClick={() => setShowRemedialModal(true)}
+            className="inline-flex items-center gap-2 rounded-2xl bg-indigo-600 px-5 py-3.5 text-xs font-black text-white shadow-lg hover:bg-indigo-500 hover:scale-105 transition-all cursor-pointer border border-indigo-400/40"
+          >
+            <span>🧠</span> AI Weakness Quiz
+          </button>
           <Link
             to="/theory/exam"
-            className="inline-flex items-center gap-2 rounded-2xl bg-emerald-500 px-6 py-3.5 text-sm font-black text-slate-900 shadow-lg hover:bg-emerald-400 hover:scale-105 transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-2xl bg-emerald-500 px-5 py-3.5 text-xs font-black text-slate-900 shadow-lg hover:bg-emerald-400 hover:scale-105 transition-all cursor-pointer"
           >
-            <span>📝</span> Start Mock Exam Now
+            <span>📝</span> Start Mock Exam
           </Link>
         </div>
       </div>
@@ -189,6 +198,12 @@ export const TheoryPracticeHubContent: React.FC<
           )}
         </div>
       )}
+
+      {/* AI Remedial Quiz Modal */}
+      <AiRemedialQuizModal
+        isOpen={showRemedialModal}
+        onClose={() => setShowRemedialModal(false)}
+      />
     </div>
   )
 }
