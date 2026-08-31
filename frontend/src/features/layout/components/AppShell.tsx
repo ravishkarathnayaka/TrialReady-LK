@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
+import { AiCopilotWidget } from '../../ai/components/AiCopilotWidget'
 import { Header } from './Header'
 import { Sidebar } from './Sidebar'
 
@@ -27,6 +28,9 @@ export const AppShell: React.FC = () => {
           </div>
         </main>
       </div>
+
+      {/* Global AI Driving Copilot Widget */}
+      <AiCopilotWidget />
     </div>
   )
 }

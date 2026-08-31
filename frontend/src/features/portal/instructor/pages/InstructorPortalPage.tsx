@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { AiSessionFeedbackModal } from '../../../ai/components/AiSessionFeedbackModal'
 import { SessionAttendanceModal } from '../../../sessions/components/SessionAttendanceModal'
 import type {
   PracticalSessionWithRelations,
@@ -33,9 +34,18 @@ export const InstructorPortalPage: React.FC<InstructorPortalPageProps> = ({
     useState<PracticalSessionWithRelations | null>(null)
   const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState(false)
 
+  const [selectedSessionForAi, setSelectedSessionForAi] =
+    useState<PracticalSessionWithRelations | null>(null)
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false)
+
   const handleOpenAttendance = (session: PracticalSessionWithRelations) => {
     setSelectedSessionForAttendance(session)
     setIsAttendanceModalOpen(true)
+  }
+
+  const handleOpenAiFeedback = (session: PracticalSessionWithRelations) => {
+    setSelectedSessionForAi(session)
+    setIsAiModalOpen(true)
   }
 
   const handleSaveAttendanceDirect = async (input: RecordAttendanceInput) => {
@@ -124,6 +134,7 @@ export const InstructorPortalPage: React.FC<InstructorPortalPageProps> = ({
       <InstructorTodayAgenda
         sessions={todaySessions}
         onOpenAttendance={handleOpenAttendance}
+        onOpenAiFeedback={handleOpenAiFeedback}
       />
 
       {/* 2. Assigned Students Roster */}
@@ -138,6 +149,24 @@ export const InstructorPortalPage: React.FC<InstructorPortalPageProps> = ({
           await handleSaveAttendanceDirect(input)
         }}
       />
+
+      {/* AI Session Feedback Synthesizer Modal */}
+      {selectedSessionForAi && (
+        <AiSessionFeedbackModal
+          isOpen={isAiModalOpen}
+          onClose={() => {
+            setIsAiModalOpen(false)
+            setSelectedSessionForAi(null)
+          }}
+          studentName={selectedSessionForAi.student?.full_name || 'Student'}
+          sessionDate={selectedSessionForAi.session_date}
+          durationMinutes={90}
+          skillsCovered={selectedSessionForAi.skills_covered || ['Basic Vehicle Control']}
+          studentRating={selectedSessionForAi.student_rating || 4}
+          vehicleReg={selectedSessionForAi.vehicle?.registration_number || 'WP CAB-4921'}
+          instructorName="Principal Instructor"
+        />
+      )}
     </div>
   )
 }

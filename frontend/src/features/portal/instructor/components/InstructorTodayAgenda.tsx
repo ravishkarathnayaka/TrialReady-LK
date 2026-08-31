@@ -4,11 +4,13 @@ import type { PracticalSessionWithRelations } from '../../../sessions/types/sess
 interface InstructorTodayAgendaProps {
   sessions: PracticalSessionWithRelations[]
   onOpenAttendance: (session: PracticalSessionWithRelations) => void
+  onOpenAiFeedback?: (session: PracticalSessionWithRelations) => void
 }
 
 export const InstructorTodayAgenda: React.FC<InstructorTodayAgendaProps> = ({
   sessions,
   onOpenAttendance,
+  onOpenAiFeedback,
 }) => {
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -112,11 +114,21 @@ export const InstructorTodayAgenda: React.FC<InstructorTodayAgendaProps> = ({
               </div>
 
               {/* Action Button */}
-              <div className="flex items-center gap-2 sm:self-center">
+              <div className="flex flex-wrap items-center gap-2 sm:self-center">
                 {sess.status === 'completed' && sess.student_rating && (
                   <span className="text-xs font-bold text-amber-500 mr-2">
                     {'★'.repeat(sess.student_rating)}{'☆'.repeat(5 - sess.student_rating)}
                   </span>
+                )}
+
+                {onOpenAiFeedback && (
+                  <button
+                    type="button"
+                    onClick={() => onOpenAiFeedback(sess)}
+                    className="rounded-xl border border-indigo-300 bg-indigo-50 px-3 py-2 text-xs font-bold text-indigo-700 hover:bg-indigo-100 transition-all cursor-pointer whitespace-nowrap flex items-center gap-1"
+                  >
+                    <span>✨</span> AI Report
+                  </button>
                 )}
 
                 <button

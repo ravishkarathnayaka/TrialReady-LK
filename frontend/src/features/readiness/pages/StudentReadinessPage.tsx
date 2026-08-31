@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useAuth } from '../../auth/context/AuthContext'
+import { AiTrialPredictorCard } from '../../ai/components/AiTrialPredictorCard'
 import { DmtLogbookModal } from '../../logbook/components/DmtLogbookModal'
 import { useStudentLogbook } from '../../logbook/hooks/useStudentLogbook'
 import { ReadinessFactorChecklist } from '../components/ReadinessFactorChecklist'
@@ -148,6 +149,16 @@ export const StudentReadinessPage: React.FC = () => {
           <ReadinessFactorChecklist factors={profile.factors} />
         </div>
       </div>
+
+      {/* Advanced AI Trial Outcome Predictor & Risk Forecaster */}
+      <AiTrialPredictorCard
+        practicalHours={profile.evaluation.practical_hours_completed}
+        skillsCovered={profile.evaluation.skills_missing.length === 0 ? ['Hill Start', 'Reverse S-Bend', 'Parallel Parking', '3-Point Turn', 'Traffic'] : ['Clutch Control', 'Road Signs']}
+        averageRating={profile.evaluation.readiness_score >= 80 ? 4.8 : profile.evaluation.readiness_score >= 60 ? 3.8 : 2.5}
+        permitDaysRemaining={profile.evaluation.permit_status === 'active' ? 75 : -5}
+        hasMedicalCleared={profile.evaluation.medical_status === 'passed'}
+        hasTheoryPassed={profile.evaluation.theory_exam_status === 'passed'}
+      />
 
       {/* AI Recommendation & Action Roadmap */}
       <ReadinessRecommendationCard
