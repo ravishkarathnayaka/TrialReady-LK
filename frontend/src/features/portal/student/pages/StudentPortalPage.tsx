@@ -1,4 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { DmtLogbookModal } from '../../../logbook/components/DmtLogbookModal'
+import { DmtTrialSlipModal } from '../../../logbook/components/DmtTrialSlipModal'
+import { useStudentLogbook } from '../../../logbook/hooks/useStudentLogbook'
 import { StudentFinancialOverviewCard } from '../components/StudentFinancialOverviewCard'
 import { StudentJourneyHeroCard } from '../components/StudentJourneyHeroCard'
 import { StudentPersonalReadinessCard } from '../components/StudentPersonalReadinessCard'
@@ -23,6 +26,10 @@ export const StudentPortalPage: React.FC<StudentPortalPageProps> = ({
     isLoading,
     errorMessage,
   } = useStudentPortal(drivingSchoolId, studentId)
+
+  const { logbookData, getTrialSlipData } = useStudentLogbook(drivingSchoolId, studentId || '')
+  const [showLogbook, setShowLogbook] = useState(false)
+  const [showTrialSlip, setShowTrialSlip] = useState(false)
 
   if (isLoading) {
     return (
@@ -79,6 +86,50 @@ export const StudentPortalPage: React.FC<StudentPortalPageProps> = ({
 
       {/* 3. Personal AI Trial Readiness */}
       <StudentPersonalReadinessCard readinessProfile={readiness} />
+
+      {/* 4. DMT Document Quick Actions */}
+      {logbookData && (
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-3">
+          <h3 className="text-sm font-bold text-slate-900">📋 My Official DMT Documents</h3>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setShowLogbook(true)}
+              className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 transition-all cursor-pointer flex items-center gap-1.5"
+            >
+              📄 View / Print DMT Logbook
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowTrialSlip(true)}
+              className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-700 transition-all cursor-pointer flex items-center gap-1.5"
+            >
+              🎫 Print Trial Admission Slip
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* DMT Logbook & Trial Slip Modals */}
+      {logbookData && (
+        <>
+          <DmtLogbookModal
+            isOpen={showLogbook}
+            onClose={() => setShowLogbook(false)}
+            data={logbookData}
+          />
+          {(() => {
+            const slipData = getTrialSlipData()
+            return slipData ? (
+              <DmtTrialSlipModal
+                isOpen={showTrialSlip}
+                onClose={() => setShowTrialSlip(false)}
+                data={slipData}
+              />
+            ) : null
+          })()}
+        </>
+      )}
     </div>
   )
 }
