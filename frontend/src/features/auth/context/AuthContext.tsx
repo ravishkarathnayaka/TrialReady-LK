@@ -32,7 +32,7 @@ interface AuthContextType {
   setDemoUser: (role: AppRole, drivingSchoolId?: string) => void
 }
 
-const DEFAULT_DEMO_SCHOOL_ID = '00000000-0000-0000-0000-000000000001'
+const DEFAULT_DEMO_SCHOOL_ID = 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
